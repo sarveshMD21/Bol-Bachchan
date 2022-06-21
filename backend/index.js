@@ -1,25 +1,27 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { chats } = require("./data/dummy.js");
+//const { chats } = require("./data/dummy.js");
+const connectDB = require("./config/db.js");
+const userRoutes = require("./Routes/userRoutes.js");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
-const app = express();
 dotenv.config();
+const app = express();
+connectDB();
+
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Welcome to home page");
 });
 
-app.get("/api/chat", (req, res) => {
-  res.send(chats);
-});
+app.use("/api/user", userRoutes);
 
-app.get("/api/chat/:id", (req, res) => {
-  const message = chats.find((c) => c._id === req.params.id);
-  res.send(message);
-});
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-  //console.log(PORT);
   console.log("Working on port destined port number");
 });
