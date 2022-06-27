@@ -39,7 +39,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    console.log(name, email, password);
     try {
       const config = {
         headers: {
@@ -52,7 +52,6 @@ const Signup = () => {
           name,
           email,
           password,
-          pic,
         },
         config
       );
@@ -133,7 +132,6 @@ const Signup = () => {
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
-        //isLoading={picLoading}
       >
         Sign Up
       </Button>
