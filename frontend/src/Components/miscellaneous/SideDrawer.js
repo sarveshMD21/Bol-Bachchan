@@ -17,18 +17,16 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import { Spinner } from "@chakra-ui/spinner";
-import NotificationBadge from "react-notification-badge";
-import { Effect } from "react-notification-badge";
-import { getSender } from "../../config/ChatLogics";
-import { ChatState } from "../../Context/ChatProvider";
+import { getSender } from "../Config/chatLogic";
+import { ChatState } from "../../context/ChatProvider";
 import UserListItem from "../UserListItem";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -104,7 +102,7 @@ function SideDrawer() {
       };
       const { data } = await axios.post(`/api/chat`, { userId }, config);
 
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id == data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
@@ -144,13 +142,6 @@ function SideDrawer() {
         </Text>
         <div>
           <Menu>
-            <MenuButton p={1}>
-              <NotificationBadge
-                count={notification.length}
-                effect={Effect.SCALE}
-              />
-              <BellIcon fontSize="2xl" m={1} />
-            </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (

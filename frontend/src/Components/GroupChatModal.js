@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { ChatState } from "../../Context/ChatProvider";
+import { ChatState } from "../context/ChatProvider";
 import UserListItem from "./UserListItem";
 import UserBadgeItem from "./UserBadgeItem";
 
@@ -104,6 +104,7 @@ const GroupChatModal = ({ children }) => {
         },
         config
       );
+      console.log(data);
       setChats([data, ...chats]);
       onClose();
       toast({

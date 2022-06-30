@@ -4,23 +4,33 @@ import { Box, Text } from "@chakra-ui/layout";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import ProfileModal from "./miscellaneous/ProfileModal";
-import Lottie from "react-lottie";
-import animationData from "../animations/typing.json";
-import io from "socket.io-client";
 import { getSender } from "./Config/chatLogic";
 import UpdateGroupChatModal from "./UpdateGroupChatModal";
-import { ChatState } from "../context/chatProvider";
+import { ChatState } from "../context/ChatProvider";
 import "./styles.css";
 import ScrollableChat from "./ScrollableChat";
+import Lottie from "react-lottie";
+import animationData from "../animations/typing.json";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const { selectedChat, setSelectedChat, user } = ChatState();
+  const [typing, setTyping] = useState(false);
+  const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       try {
@@ -30,6 +40,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
+        console.log(newMessage);
         setNewMessage("");
         const { data } = await axios.post(
           "/api/message",

@@ -12,7 +12,7 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route path="/chat">
+          <Route path="/chats">
             <Chatpage />
           </Route>
         </Switch>
